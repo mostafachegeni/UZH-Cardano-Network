@@ -8,9 +8,6 @@ rm -rf $CNODE_HOME/db/*
 rm -rf $CNODE_HOME/sockets/*
 rm -rf $CNODE_HOME/files/*
 
-UTXO_KEYS_PATH=~/keys/utxo-keys
-POOL_KEYS_PATH=~/keys/pool-keys
-
 
 
 # Create the genesis files and configs for the network, and the various keys that the nodes use.
@@ -38,9 +35,8 @@ echo "Updating genesis using following environments variables:
 EPOCH_LENGTH=`perl -E "say ((10 * $K) / $F)"`
 EPOCH_LENGTH_MINUTES=`perl -E "say (($EPOCH_LENGTH / 60) * $SLOT_LENGTH )"`
 EPOCH_LENGTH_MINUTES_INT=${EPOCH_LENGTH_MINUTES%.*}
-
 #RETURN_ADDRESS=$(cat keys/utxo-keys/utxo1_stk.addr)
-RETURN_ADDRESS=$(cat $UTXO_KEYS_PATH/stake.addr)
+#RETURN_ADDRESS=$(cat $UTXO_KEYS_PATH/stake.addr)
 
 
 # copy the config files
