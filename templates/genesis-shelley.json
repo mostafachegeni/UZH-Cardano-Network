@@ -5,7 +5,7 @@
     "securityParam": 10,
     "genDelegs": {},
     "initialFunds": {
-        "009783be7d3c54f11377966dfabc9284cd6c32fca1cd42ef0a4f1cc45bf0d61499f0f82264937e44605cba03bb59062fe8a2233b179c8f64d7": 15000000000000000
+        "0047e1e7cca28f85f2406c337b3055b0f27ad5fb0437c031ca3dea6406dd024cdd3dd83d57cf4d80fb80cdea51cc6d976ed95df95884645aa1": 15000000000000000
     },
     "maxKESEvolutions": 62,
     "maxLovelaceSupply": 45000000000000000,
@@ -38,25 +38,25 @@
     "slotsPerKESPeriod": 129600,
     "staking": {
         "pools": {
-            "8a219b698d3b6e034391ae84cee62f1d76b6fbc45ddfe4e31e0d4b60": {
+            "b75e803d3fe4cc40ba00d5c91e6fa7ec4aee62ecd668e1d8d8cc5024": {
                 "cost": 340000000,
                 "margin": 0.0,
                 "metadata": null,
                 "owners": [],
                 "pledge": 0,
-                "publicKey": "8a219b698d3b6e034391ae84cee62f1d76b6fbc45ddfe4e31e0d4b60",
+                "publicKey": "b75e803d3fe4cc40ba00d5c91e6fa7ec4aee62ecd668e1d8d8cc5024",
                 "relays": [],
                 "rewardAccount": {
                     "credential": {
-                        "key hash": "b6ffb20cf821f9286802235841d4348a2c2bafd4f73092b7de6655ea"
+                        "key hash": "66d3e3e4ea08f2a5a21ff9798ed1cb9a8935150013c41e794a882cd6"
                     },
                     "network": "Testnet"
                 },
-                "vrf": "fec17ed60cbf2ec5be3f061fb4de0b6ef1f20947cfbfce5fb2783d12f3f69ff5"
+                "vrf": "e9832315b8b8abc87977c6dd671a2cb77b4fb456a0afcd1b1caf7eec"
             }
         },
         "stake": {
-            "f0d61499f0f82264937e44605cba03bb59062fe8a2233b179c8f64d7": "8a219b698d3b6e034391ae84cee62f1d76b6fbc45ddfe4e31e0d4b60"
+            "dd024cdd3dd83d57cf4d80fb80cdea51cc6d976ed95df95884645aa1": "b75e803d3fe4cc40ba00d5c91e6fa7ec4aee62ecd668e1d8d8cc5024"
         }
     },
     "systemStart": "2023-07-04T12:38:52Z",
