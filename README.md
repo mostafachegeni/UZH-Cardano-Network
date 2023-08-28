@@ -250,7 +250,7 @@ If this command yields a non-empty string, rejoice! This indicates that your sta
 
 # Use the stake pool ID to verify it is included in the blockchain:
 []% POOL_KEYS_PATH=~/keys/pool-keys; cardano-cli query stake-snapshot --stake-pool-id $(cardano-cli stake-pool id --cold-verification-key-file $POOL_KEYS_PATH/node.vkey) --testnet-magic 2023  
-# The output should look like this (After 1 hour):
+# The output should look like this (After 3 epochs i.e. ~1.5 hour):
 #        {
 #            "pools": {
 #                "249b04caca6a6c092f630ace0588ac63110cc6fa816e19991cbddcd7": {
@@ -265,6 +265,16 @@ If this command yields a non-empty string, rejoice! This indicates that your sta
 #                "stakeSet": 15126521312269178
 #            }
 #        }
+
+
+# Find the slots in which this node will be the leader:
+[]% POOL_KEYS_PATH=~/keys/pool-keys; cardano-cli query leadership-schedule --testnet-magic 2023 --genesis $CNODE_HOME/files/shelley-genesis.json --stake-pool-id $(cardano-cli stake-pool id --cold-verification-key-file $POOL_KEYS_PATH/node.vkey) --vrf-signing-key-file $POOL_KEYS_PATH/vrf.skey --current
+# The output should look like this:
+#             SlotNo                          UTC Time              
+#        -------------------------------------------------------------
+#             14078                   2023-08-28 21:30:41 UTC
+#             14131                   2023-08-28 21:31:34 UTC
+#             14198                   2023-08-28 21:32:41 UTC
 ```
 
 
