@@ -13,6 +13,8 @@ UTXO_KEYS_PATH=~/keys/utxo-keys
 POOL_KEYS_PATH=~/keys/pool-keys
 TXS_PATH=~/txs
 
+mkdir -p $TXS_PATH
+
 # Find your balance and UTXOs:
 cardano-cli query utxo --address $(cat $UTXO_KEYS_PATH/payment.addr) --testnet-magic 2023 > $TXS_PATH/fullUtxo_faucet.out
 tail -n +3 $TXS_PATH/fullUtxo_faucet.out | sort -k3 -nr > $TXS_PATH/balance_faucet.out
