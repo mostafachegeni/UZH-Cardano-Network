@@ -286,7 +286,7 @@ from the stake (rewards) address straight to the payment address.
 ```bash
 # Check the current balance of the rewards address:
 []% UTXO_KEYS_PATH=~/keys/utxo-keys; cardano-cli query stake-address-info --testnet-magic 2023 --address $(cat $UTXO_KEYS_PATH/stake.addr)
-# The output should look like this:
+# The output should look like this (after 4 epochs i.e. ~2 hours):
 #        [
 #            {
 #                "address": "stake_test1uzehfqwhq8yr8fh3rcnqwnvezq23aah2qd8xsjsatca3p2c662rjw",
