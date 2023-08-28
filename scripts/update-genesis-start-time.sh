@@ -2,6 +2,17 @@
 
 set -euo pipefail
 
+
+# Check if the user provided an input
+if [ "$#" -ne 1 ]; then
+    echo "Usage: ./update-genesis-start-time.sh <pool_name>"
+    return 1
+fi
+
+POOL_NAME=$1
+echo POOL_NAME: $POOL_NAME
+
+
 # Remove previously generated keys and files and db files
 
 rm -rf $CNODE_HOME/db/*
