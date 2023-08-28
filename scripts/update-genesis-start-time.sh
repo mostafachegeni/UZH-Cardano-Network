@@ -35,8 +35,6 @@ echo "Updating genesis using following environments variables:
 EPOCH_LENGTH=`perl -E "say ((10 * $K) / $F)"`
 EPOCH_LENGTH_MINUTES=`perl -E "say (($EPOCH_LENGTH / 60) * $SLOT_LENGTH )"`
 EPOCH_LENGTH_MINUTES_INT=${EPOCH_LENGTH_MINUTES%.*}
-#RETURN_ADDRESS=$(cat keys/utxo-keys/utxo1_stk.addr)
-#RETURN_ADDRESS=$(cat $UTXO_KEYS_PATH/stake.addr)
 
 
 # copy the config files
@@ -56,17 +54,19 @@ cp templates/topology.json $CNODE_HOME/files/topology.json
 
 
 
-# Create keys file
-#mkdir -p $CNODE_HOME/generated-keys/
-#mkdir -p $CNODE_HOME/initial-keys/
-#mkdir -p $CNODE_HOME/priv/pool/$POOL_NAME
+# Copy the keys:
+mkdir -p $CNODE_HOME/priv/pool/$POOL_NAME
 
-#copy the keys
-#cp keys/node-keys/kes.skey $CNODE_HOME/priv/pool/$POOL_NAME/hot.skey
-#cp keys/node-keys/vrf.skey $CNODE_HOME/priv/pool/$POOL_NAME/vrf.skey
-#cp keys/node-keys/opcert.cert $CNODE_HOME/priv/pool/$POOL_NAME/op.cert
+UTXO_KEYS_PATH=~/keys/utxo-keys 
+POOL_KEYS_PATH=~/keys/pool-keys 
 
-#sudo chmod o-rwx $CNODE_HOME/priv/pool/$POOL_NAME/vrf.skey
-#sudo chmod g-rwx $CNODE_HOME/priv/pool/$POOL_NAME/vrf.skey
+chmod 400 $POOL_KEYS_PATH/vrf.skey
+mkdir -p $CNODE_HOME/priv/pool/$POOL_NAME
 
-#cp -r keys/utxo-keys/* $CNODE_HOME/initial-keys
+cp $POOL_KEYS_PATH/kes.skey $CNODE_HOME/priv/pool/$POOL_NAME/hot.skey
+cp $POOL_KEYS_PATH/vrf.skey $CNODE_HOME/priv/pool/$POOL_NAME/vrf.skey
+cp $POOL_KEYS_PATH/node.cert $CNODE_HOME/priv/pool/$POOL_NAME/op.cert
+
+sudo chmod o-rwx $CNODE_HOME/priv/pool/$POOL_NAME/vrf.skey
+sudo chmod g-rwx $CNODE_HOME/priv/pool/$POOL_NAME/vrf.skey
+
