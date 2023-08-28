@@ -5,34 +5,64 @@ set -euo pipefail
 cd $CNODE_HOME
 mkdir -p output
 
-SEND_ADDR=$2
 FAUCET_AMOUNT=$1
-PAYMENT_KEY_PREFIX=$CNODE_HOME/initial-keys
-CARDANO_NODE_SOCKET_PATH=$CNODE_HOME/sockets/node0.socket
-export CARDANO_NODE_SOCKET_PATH
+SEND_ADDR=$2
 
-ADDR=$(cat $CNODE_HOME/initial-keys/utxo1.addr)
-ADDR_AMOUNT=$(cardano-cli query utxo --address $ADDR --testnet-magic $NETWORK_MAGIC | awk '{if(NR==3) print $3}')
-UTXO=$(cardano-cli query utxo --address $ADDR --testnet-magic $NETWORK_MAGIC | awk '{if(NR==3) print $1 "#" $2}')
+NETWORK_MAGIC=2023
+UTXO_KEYS_PATH=~/keys/utxo-keys
+POOL_KEYS_PATH=~/keys/pool-keys
+TXS_PATH=~/txs
+
+# Find your balance and UTXOs:
+cardano-cli query utxo --address $(cat $UTXO_KEYS_PATH/payment.addr) --testnet-magic 2023 > $TXS_PATH/fullUtxo_faucet.out
+tail -n +3 $TXS_PATH/fullUtxo_faucet.out | sort -k3 -nr > $TXS_PATH/balance_faucet.out
+cat $TXS_PATH/balance_faucet.out
+tx_in=""
+total_balance=0
+while read -r utxo; do 
+    type=$(awk '{ print $6 }' <<< "${utxo}") 
+    if [[ ${type} == 'TxOutDatumNone' ]] 
+    then 
+        in_addr=$(awk '{ print $1 }' <<< "${utxo}") 
+        idx=$(awk '{ print $2 }' <<< "${utxo}") 
+        utxo_balance=$(awk '{ print $3 }' <<< "${utxo}") 
+        total_balance=$((${total_balance}+${utxo_balance})) 
+        echo TxHash: ${in_addr}#${idx} 
+        echo ADA: ${utxo_balance} 
+        tx_in="${tx_in} --tx-in ${in_addr}#${idx}" 
+    fi 
+done < $TXS_PATH/balance_faucet.out 
+
+txcnt=$(cat $TXS_PATH/balance_faucet.out | wc -l)
+echo Total available ADA balance: ${total_balance}
+echo Number of UTXOs: ${txcnt}
+
+
+
+
+
+#ADDR=$(cat $CNODE_HOME/initial-keys/utxo1.addr)
+#ADDR_AMOUNT=$(cardano-cli query utxo --address $ADDR --testnet-magic $NETWORK_MAGIC | awk '{if(NR==3) print $3}')
+#UTXO=$(cardano-cli query utxo --address $ADDR --testnet-magic $NETWORK_MAGIC | awk '{if(NR==3) print $1 "#" $2}')
 
 cardano-cli transaction build \
-    --tx-in $UTXO \
+    ${tx_in} \
     --tx-out $SEND_ADDR+$FAUCET_AMOUNT \
-    --change-address $ADDR \
+    --change-address $(cat $UTXO_KEYS_PATH/payment.addr) \
     --testnet-magic $NETWORK_MAGIC \
-    --out-file output/$SEND_ADDR.tx.txbody
+    --out-file $TXS_PATH/tx_faucet.raw
 
 
 cardano-cli transaction sign \
-    --tx-body-file output/$SEND_ADDR.tx.txbody \
-    --out-file output/$SEND_ADDR.tx.txsigned \
-    --signing-key-file $CNODE_HOME/initial-keys/utxo1.skey
+    --tx-body-file $TXS_PATH/tx_faucet.raw \
+    --out-file $TXS_PATH/tx_faucet.signed \
+    --signing-key-file $UTXO_KEYS_PATH/payment.skey
 
 echo -n ":::"
-cardano-cli transaction txid --tx-file output/$SEND_ADDR.tx.txsigned
+cardano-cli transaction txid --tx-file $TXS_PATH/tx_faucet.signed
 echo -n ":::"
 
-cardano-cli transaction submit --tx-file output/$SEND_ADDR.tx.txsigned --testnet-magic $NETWORK_MAGIC
+cardano-cli transaction submit --tx-file $TXS_PATH/tx_faucet.signed --testnet-magic $NETWORK_MAGIC
 
-rm -rf output/$SEND_ADDR.tx.txbody
-mv output/$SEND_ADDR.tx.txsigned output/$SEND_ADDR.sent
+rm $TXS_PATH/tx_faucet.raw
+mv $TXS_PATH/tx_faucet.signed $TXS_PATH/tx_faucet.sent
