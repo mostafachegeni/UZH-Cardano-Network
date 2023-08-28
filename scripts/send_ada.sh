@@ -1,9 +1,14 @@
 #!/usr/bin/env bash
 
+# Check the number of input arguments
+if [ "$#" -ne 2 ]; then
+    echo "You must provide exactly two arguments: ./send_ada.sh <AMOUNT_IN_LOVELACE> <ADDRESS>"
+    exit 1
+fi
+
+
 set -euo pipefail
 
-cd $CNODE_HOME
-mkdir -p output
 
 FAUCET_AMOUNT=$1
 SEND_ADDR=$2
@@ -39,13 +44,6 @@ txcnt=$(cat $TXS_PATH/balance_faucet.out | wc -l)
 echo Total available ADA balance: ${total_balance}
 echo Number of UTXOs: ${txcnt}
 
-
-
-
-
-#ADDR=$(cat $CNODE_HOME/initial-keys/utxo1.addr)
-#ADDR_AMOUNT=$(cardano-cli query utxo --address $ADDR --testnet-magic $NETWORK_MAGIC | awk '{if(NR==3) print $3}')
-#UTXO=$(cardano-cli query utxo --address $ADDR --testnet-magic $NETWORK_MAGIC | awk '{if(NR==3) print $1 "#" $2}')
 
 cardano-cli transaction build \
     ${tx_in} \
