@@ -57,9 +57,9 @@ tail -n +3 $TXS_PATH/fullUtxo4.out | sort -k3 -nr > $TXS_PATH/balance4.out
 tx_in=""
 total_balance=0
 while read -r utxo; do 
-    type=$(awk '{ print $6 }' <<< "${utxo}") 
-    if [[ ${type} == 'TxOutDatumNone' ]] 
-    then 
+    #type=$(awk '{ print $6 }' <<< "${utxo}") 
+    #if [[ ${type} == 'TxOutDatumNone' ]] 
+    #then 
         in_addr=$(awk '{ print $1 }' <<< "${utxo}") 
         idx=$(awk '{ print $2 }' <<< "${utxo}") 
         utxo_balance=$(awk '{ print $3 }' <<< "${utxo}") 
@@ -67,7 +67,7 @@ while read -r utxo; do
         echo TxHash: ${in_addr}#${idx} 
         echo ADA: ${utxo_balance} 
         tx_in="${tx_in} --tx-in ${in_addr}#${idx}" 
-    fi 
+    #fi 
 done < $TXS_PATH/balance4.out 
 
 
@@ -81,50 +81,47 @@ echo Current Slot: $currentSlot
 
 
 
-cardano-cli transaction build-raw \
+# Build the transaction:
+cardano-cli transaction build \
     ${tx_in} \
-    --tx-out $(cat $UTXO_KEYS_PATH/payment.addr)+${total_balance} \
-    --invalid-hereafter $(( ${currentSlot} + 10000)) \
-    --fee 0 \
-    --certificate-file $TXS_PATH/pool.dereg \
-    --out-file $TXS_PATH/tx4.tmp
-
-
-fee=$(cardano-cli transaction calculate-min-fee \
-    --tx-body-file $TXS_PATH/tx4.tmp \
-    --tx-in-count ${txcnt} \
-    --tx-out-count 1 \
+    --change-address $(cat $UTXO_KEYS_PATH/payment.addr) \
     --testnet-magic $NETWORK_MAGIC \
-    --witness-count 2 \
-    --byron-witness-count 0 \
-    --protocol-params-file $CNODE_HOME/files/params.json | awk '{ print $1 }')
-echo fee: $fee
-
-
-txOut=$((${total_balance}-${fee}))
-echo txOut: ${txOut}
-
-
-cardano-cli transaction build-raw \
-    ${tx_in} \
-    --tx-out $(cat $UTXO_KEYS_PATH/payment.addr)+${txOut} \
     --invalid-hereafter $(( ${currentSlot} + 10000)) \
-    --fee ${fee} \
     --certificate-file $TXS_PATH/pool.dereg \
     --out-file $TXS_PATH/tx4.raw
 
 
 
+# Sign the transaction:
 cardano-cli transaction sign \
     --tx-body-file $TXS_PATH/tx4.raw \
     --signing-key-file $UTXO_KEYS_PATH/payment.skey \
     --signing-key-file $POOL_KEYS_PATH/node.skey \
-    --testnet-magic $NETWORK_MAGIC \
+    --testnet-magic $NETWORK_MAGIC  \
     --out-file $TXS_PATH/tx4.signed
 
 
 
-cardano-cli transaction submit \
-    --tx-file $TXS_PATH/tx4.signed \
-    --testnet-magic $NETWORK_MAGIC 
+echo -n ":::"
+cardano-cli transaction txid --tx-file $TXS_PATH/tx4.signed
+echo -n ":::"
+
+
+# Send the transaction:
+#    --> Output should be as follows: "Transaction successfully submitted."
+cardano-cli transaction submit --tx-file $TXS_PATH/tx4.signed --testnet-magic $NETWORK_MAGIC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
