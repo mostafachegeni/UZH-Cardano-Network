@@ -167,7 +167,7 @@ This step is imperative, as having ADA in your payment address will be essential
 
 
 ## 5. Mint Native Tokens:
-
+Please follow the instructions outlined in the [Mint Native Tokens](https://github.com/mostafachegeni/UZH-Cardano-Network/blob/main/scripts/step5_mint_token.md) section for guidance.
 
 
 ## 6. Register Your Stake Address:
