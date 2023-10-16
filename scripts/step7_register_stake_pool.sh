@@ -2,7 +2,7 @@
 
 # Check if the user provided an input
 if [ "$#" -ne 1 ]; then
-    echo "Usage: ./step6_register_stake_pool.sh <pool_name>"
+    echo "Usage: ./step7_register_stake_pool.sh <pool_name>"
     return 1
 fi
 
