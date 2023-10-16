@@ -10,6 +10,11 @@ Last but not least, we will conclude by walking you through the procedure to wit
 transferring them safely to your payment address, and de-registering the stake pool and stake address.
 
  
+**IMPORTANT NOTE: Throughout the hands-on exercise, it is imperative that you maintain detailed records of the entire outputs generated in your terminal at each step. Subsequently, please forward these comprehensive output records to the Teaching Assistants (TAs) upon completion of the exercise as a pdf file.
+This action is not simply a procedural requirement; it holds significant importance for two critical reasons:
+Firstly, providing the TAs with the complete output records allows them to thoroughly assess and verify your successful execution of the hands-on session, ensuring you receive the proper credit and feedback.
+Secondly, it plays a crucial role in maintaining the integrity and continuity of our learning resources for future sessions. By retaining these records, we ensure that all funds utilized during the exercise are correctly returned to the faucet, safeguarding the availability of resources for upcoming learners.**
+
 
 **IMPORTANT NOTE: It is of utmost importance that upon executing each of the scripts (`step5_register_stake_address.sh`, `step6_register_stake_pool.sh`, `step8_withdraw_rewards.sh`, `step9_deregister_pool.sh`, and `step10_deregister_stake_address.sh`), you take note of the "TxHash" generated. Please send these "TxHash" values to the _Teaching Assistants (TAs)_. This step is not merely procedural but vital for two primary reasons: firstly, it enables the TAs to verify and confirm your successful completion of the hands-on session; and secondly, it ensures that all funds used during the exercise have been appropriately returned to the faucet, maintaining the integrity and continuity of the learning resources for future sessions.**
 
