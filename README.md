@@ -10,7 +10,7 @@ Last but not least, we will conclude by walking you through the procedure to wit
 transferring them safely to your payment address, and de-registering the stake pool and stake address.
 
  
-**IMPORTANT NOTE: Throughout the hands-on exercise, it is imperative that you maintain all records of the outputs generated in your terminal after executing the following scripts: `step5_register_stake_address.sh`, `step6_register_stake_pool.sh`, `step8_withdraw_rewards.sh`, `step9_deregister_pool.sh`, and `step10_deregister_stake_address.sh`. Subsequently, please forward these output records to the Teaching Assistants (TAs) upon completion of the exercise as a pdf file.
+**IMPORTANT NOTE: Throughout the hands-on exercise, it is imperative that you maintain all records of the outputs generated in your terminal after executing the following scripts: `step6_register_stake_address.sh`, `step7_register_stake_pool.sh`, `step9_withdraw_rewards.sh`, `step10_deregister_pool.sh`, and `step10_deregister_stake_address.sh`. Subsequently, please forward these output records to the Teaching Assistants (TAs) upon completion of the exercise as a pdf file.
 This action is not simply a procedural requirement; it holds significant importance for two critical reasons:
 Firstly, providing the TAs with the complete output records allows them to thoroughly assess and verify your successful execution of the hands-on session, ensuring you receive the proper credit and feedback.
 Secondly, it plays a crucial role in maintaining the integrity and continuity of our learning resources for future sessions. By retaining these records, we ensure that all funds utilized during the exercise are correctly returned to the faucet, safeguarding the availability of resources for upcoming learners.**
@@ -167,19 +167,19 @@ This step is imperative, as having ADA in your payment address will be essential
 
 
 
-## 5. Register Your Stake Address:
+## 6. Register Your Stake Address:
 
 The ensuing pivotal phase involves registering your stake address. In the realm of Cardano, the pledge represents the stake you allocate to your own pool, 
 symbolizing commitment and trustworthiness. To make this pledge meaningful, you must register your stake address on the blockchain. 
 This specific address should be linked with a payment address that already contains funds, marking the amount you intend to pledge. 
-To achieve this registration seamlessly, utilize the `source ./scripts/step5_register_stake_address.sh "pool2"` command, 
+To achieve this registration seamlessly, utilize the `source ./scripts/step6_register_stake_address.sh "pool2"` command, 
 ensuring the stake address for `"pool2"` is recognized and verified on the blockchain.
 The provided script is designed to generate a certificate named `stake.cert`. This certificate is meticulously crafted utilizing the `stake.vkey`. 
 In essence, this process ensures that your stake key is formally recognized and can be utilized in subsequent blockchain operations.
 
 
 ```bash
-[]% source ./scripts/step5_register_stake_address.sh "pool2"
+[]% source ./scripts/step6_register_stake_address.sh "pool2"
 # The output should look like this:
 #        POOL_NAME: pool2
 #        **TxHash: fb974a0164c402e0999b74d517fbd7fd037b3a5dd08d989e18aadfa53f753518#0**
@@ -194,9 +194,9 @@ In essence, this process ensures that your stake key is formally recognized and 
 ```
 
 
-## 6. Register Your Stake Pool:
+## 7. Register Your Stake Pool:
 
-Diving into the next step, we will focus on registering your stake pool. By executing the command `source ./scripts/step6_register_stake_pool.sh "pool2"`, 
+Diving into the next step, we will focus on registering your stake pool. By executing the command `source ./scripts/step7_register_stake_pool.sh "pool2"`, 
 the script will generate a "registration certificate" for your stake pool and simultaneously pledge stake to it. 
 This intricate operation establishes a delegation certificate. 
 This certificate plays a pivotal role as it "delegates" funds from all stake addresses associated with the `stake.vkey` to the pool governed by the `cold key node.vkey`. 
@@ -210,7 +210,7 @@ It is essential to grasp some nuances here:
 
 
 ```bash
-[]% source ./scripts/step6_register_stake_pool.sh "pool2"
+[]% source ./scripts/step7_register_stake_pool.sh "pool2"
 # The output should look like this:
 #        POOL_NAME: pool2
 #        minPoolCost: 340000000
@@ -238,7 +238,7 @@ It is essential to grasp some nuances here:
 
 
 
-## 7. Verify the Stake Pool Operation:
+## 8. Verify the Stake Pool Operation:
 
 Moving forward, a crucial phase in your journey is the verification of your stake pool's operation to ensure it is effectively integrated into the Cardano network. 
 Start by computing your stake pool ID using the command `cardano-cli stake-pool id --cold-verification-key-file node.vkey`. 
@@ -283,7 +283,7 @@ If this command yields a non-empty string, rejoice! This indicates that your sta
 
 
 
-## 8. Withdraw Rewards:
+## 9. Withdraw Rewards:
 
 
 Our subsequent step revolves around the rewarding process of withdrawing rewards. 
@@ -292,7 +292,7 @@ the entire amount of accumulated rewards in one transaction, as partial withdraw
 To initiate this, start by checking the current balance of your rewards address using the command: `cardano-cli query stake-address-info --testnet-magic 2023 --address stake.addr`.
 Following this, ascertain the balance of your payment address—the destination for your rewards and also the entity bearing transaction fees—by 
 running: `cardano-cli query utxo --testnet-magic 2023 --address payment.addr`. 
-With the necessary groundwork laid, you can then execute the `source ./scripts/step8_withdraw_rewards.sh "pool2"` command to seamlessly transfer the rewards 
+With the necessary groundwork laid, you can then execute the `source ./scripts/step9_withdraw_rewards.sh "pool2"` command to seamlessly transfer the rewards 
 from the stake (rewards) address straight to the payment address.
 
 
@@ -319,7 +319,7 @@ from the stake (rewards) address straight to the payment address.
 
 
 # Withdraw rewards from the stake (rewards) address to the payment address:
-[]% source ./scripts/step8_withdraw_rewards.sh "pool2"
+[]% source ./scripts/step9_withdraw_rewards.sh "pool2"
 # The output should look like this:
 #        POOL_NAME: pool2
 #        stakePoolRewards: 10104492373247
@@ -337,16 +337,16 @@ from the stake (rewards) address straight to the payment address.
 
 
 
-## 9. De-Register the Stake Pool:
+## 10. De-Register the Stake Pool:
 
 Transitioning to the next phase, there are times when it becomes necessary to de-register a stake pool, ending its official operation on the Cardano network. 
 This step ensures a clean exit, allowing for resources to be repurposed or the pool to be retired altogether. 
-To execute this de-registration, you will employ the command `source ./scripts/step9_deregister_pool.sh "pool2"`. 
+To execute this de-registration, you will employ the command `source ./scripts/step10_deregister_pool.sh "pool2"`. 
 Once triggered, this script will handle all the intricate details, ensuring `"pool2"` is gracefully removed from the list of active stake pools on the Cardano blockchain.
 
 
 ```bash
-[]% source ./scripts/step9_deregister_pool.sh "pool2"
+[]% source ./scripts/step10_deregister_pool.sh "pool2"
 # The output should look like this:
 #        POOL_NAME: pool6
 #        current epoch: 632
@@ -365,11 +365,11 @@ Once triggered, this script will handle all the intricate details, ensuring `"po
 
 
 
-## 10. De-Register the Stake Address:
+## 11. De-Register the Stake Address:
 
 Following the de-registration of the pool, it is essential to also de-register the associated stake address. 
 This step signifies the conclusion of stake-related operations for a specific address in the Cardano ecosystem. 
-By executing the command `source ./scripts/step10_deregister_stake_address.sh "pool2"`, you initiate a multi-faceted process: 
+By executing the command `source ./scripts/step11_deregister_stake_address.sh "pool2"`, you initiate a multi-faceted process: 
 first, any residual rewards are withdrawn; 
 next, the stake address is de-registered; 
 and finally, any remaining funds are returned to the faucet, marking the full closure of the stake address's operations.
@@ -377,7 +377,7 @@ and finally, any remaining funds are returned to the faucet, marking the full cl
 
 ```bash
 # Withdraw rewards, de-register the stake address, and return the funds to the faucet:
-[]% source ./scripts/step10_deregister_stake_address.sh "pool2"
+[]% source ./scripts/step11_deregister_stake_address.sh "pool2"
 # The output should look like this:
 #        POOL_NAME: pool6
 #        **TxHash: 7f868af8622d940ffcf4ba8f157889964ce1cd357c8638fa16cafd065fd9c1b7#0**
