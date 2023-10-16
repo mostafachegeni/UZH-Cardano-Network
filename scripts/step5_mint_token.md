@@ -208,7 +208,7 @@ The minting of an NFT on the Cardano network involves a series of intricate step
 ## 10.1. Discovering UTXOs (Unspent Transaction Outputs)
 Before constructing our transaction, we need to determine the current balance and UTXOs associated with our address. UTXOs are vital components of the Cardano transaction model, representing assets that are yet to be spent.
 ```
-output=1000000000000
+output=3000000
 NETWORK_MAGIC=2023
 TXS_PATH=./txs
 mkdir -p $TXS_PATH
