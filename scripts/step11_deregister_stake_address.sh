@@ -10,7 +10,7 @@ POOL_NAME=$1
 echo POOL_NAME: $POOL_NAME
 
 NETWORK_MAGIC=2023
-FAUCET_ADDR=addr_test1qztc80na8320zymhjekl40yjsnxkcvhu58x59mc2fuwvgkls6c2fnu8cyfjfxljyvpwt5qamtyrzl69zyva308y0vntsfhv6r9
+FAUCET_ADDR=addr_test1qpr7re7v528ctujqdsehkvz4kre8440mqsmuqvw28h4xgpkaqfxd60wc84tu7nvqlwqvm6j3e3kewmkethu43pryt2sscrcchz
 
 #PAYMENT_KEY_PREFIX=~/keys/utxo-keys/payment
 UTXO_KEYS_PATH=~/keys/utxo-keys
