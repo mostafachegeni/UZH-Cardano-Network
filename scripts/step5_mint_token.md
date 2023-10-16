@@ -1,4 +1,4 @@
-# Minting NFTs in the UZH-Cardano-Network
+# Mint Native Tokens in UZH-Cardano-Network
 
 This guide provides a step-by-step walkthrough on minting non-fungible tokens (NFTs) within our private Cardano network, known as [UZH-Cardano-Network](https://github.com/mostafachegeni/UZH-Cardano-Network).
 
@@ -26,7 +26,9 @@ To view the image, access it through the [pinata gateway](https://gateway.pinata
 
 # 1. Initiating the Process
 
-Start by running a Cardano node and connecting to the UZH-Cardano network. For a comprehensive guide on setting up a Cardano node in the UZH-Cardano network, refer to our [UZH Gitlab repository](https://gitlab.uzh.ch/mostafa.chegenizadeh/uzh-cardano-network) or our [GitHub repository](https://github.com/mostafachegeni/UZH-Cardano-Network).
+We suppose that you already have a running Cardano node connected to the UZH-Cardano network. For a comprehensive guide on setting up a Cardano node in the UZH-Cardano network, refer to our [UZH Gitlab repository](https://gitlab.uzh.ch/mostafa.chegenizadeh/uzh-cardano-network) or our [GitHub repository](https://github.com/mostafachegeni/UZH-Cardano-Network).
+
+
 
 # 2. Set up a new working directory
 It is crucial to organize our files efficiently. Let's begin by creating a new working directory named nft. This will serve as our workspace for all tasks related to this module. Upon executing these commands, you'll have established 'nft' as your current working directory, ensuring all our subsequent activities are neatly contained within this folder. Follow the commands below:
@@ -47,34 +49,15 @@ ipfs_hash="QmbqYorMg8xsiUGnmU9dXfHZCvq8kXZYrcUxvScdG5stKV"
 ```
 
 
-# 4. Generating Payment Keys and Payment Address
+# 4. Copy Payment Keys and Payment Address
 The next pivotal step involves generating the necessary keys and addresses. These are the foundational elements that will enable our token transactions:
 ```
-# Generate the keys
-cardano-cli address key-gen --verification-key-file payment.vkey --signing-key-file payment.skey
+# copy the keys
+cp ~/keys/utxo-keys/payment.*  ~/nft/ 
 
-# Build the address
-cardano-cli address build --payment-verification-key-file payment.vkey --out-file payment.addr --testnet-magic 2023
+#To check if the address has successfully received the funds, use the following command:
 address=$(cat payment.addr)
-```
 
-# 5. Receiving Funds
-```
-# Display your payment address
-cat payment.addr
-```
-
-```
-# ------------------------------------------------------------------------------------------------
-# This command MUST be executed on the bootstrap node to send 20 ADA to the address you've just generated:
-        ~/UZH-Cardano-Network/scripts/send_ada.sh 20000000 <ADDRESS>
-# ------------------------------------------------------------------------------------------------
-```
-Ensure you replace `<ADDRESS>` with the payment address you previously displayed.
-
-
-To check if the address has successfully received the funds, use the following command:
-```
 cardano-cli query utxo --address $address --testnet-magic 2023
 # The output should look like the following:
 #                            TxHash                                 TxIx        Amount
@@ -83,7 +66,7 @@ cardano-cli query utxo --address $address --testnet-magic 2023
 ```
 
 
-# 6. Exporting Protocol Parameters
+# 5. Exporting Protocol Parameters
 To ensure we are all aligned with the network's current configuration, we'll now export the protocol parameters. This step ensures that we work with the most recent network settings:
 ```
 cardano-cli query protocol-parameters --testnet-magic 2023 --out-file protocol.json
@@ -91,7 +74,7 @@ cardano-cli query protocol-parameters --testnet-magic 2023 --out-file protocol.j
 By executing the above command, you'll have saved the protocol parameters to a file named protocol.json, which will be referenced in our subsequent steps.
 
 
-# 7. Generating Policy Keys for Token Operations
+# 6. Generating Policy Keys for Token Operations
 Within the Cardano network, each token operation is guided by a specific policy that outlines its behavior and rules. This policy is backed by cryptographic keys which serve as a unique identifier and a measure of security. In this step, we'll be generating a pair of policy keys. These keys play a dual role:
   1. They form an integral component of the policy script, which sets the guidelines for the token.
   2. They are used for signing the minting transaction, ensuring authenticity and integrity.
@@ -108,7 +91,7 @@ cardano-cli address key-gen \
 
 
 
-# 8. Defining Script File for Token Operations
+# 7. Defining Script File for Token Operations
 The backbone of our token operations lies in a script that defines the rules and boundaries for our assets. This script ensures that our tokens function within the constraints we've outlined for them. Let's delve into creating a script that:
   1. Allows only one signature for minting.
   2. Prevents any further minting or burning of the asset after 10,000 slots have lapsed post-transaction.
@@ -165,7 +148,7 @@ script="policy/policy.script"
 
 
 
-# 9. Deriving the PolicyID from the Policy Script
+# 8. Deriving the PolicyID from the Policy Script
 In the Cardano ecosystem, each token's behavior and rules are dictated by its associated policy. A unique identifier, known as the policyID, is used to represent this policy throughout the network. This policyID is not arbitrarily assigned; instead, it's derived by computing the hash of the policy script.
 
 To generate the policyID, follow these commands:
@@ -183,7 +166,7 @@ cat policy/policyID
 
 
 
-# 10. Defining Metadata for our NFT
+# 9. Defining Metadata for our NFT
 Metadata plays a critical role in the Cardano ecosystem as it carries vital information about the tokens. Essentially, it's a set of data that describes and gives information about other data. In the context of our token operations, we'll adjust our metadata to encompass pivotal details that would be stored on the blockchain. Notably, this metadata will house the `policyID`, which serves as a unique identifier for our token's governing rules, and the address of our NFT image on the InterPlanetary File System (IPFS).
 
 To structure our metadata, use the following commands:
@@ -221,10 +204,10 @@ cat metadata.json
 ```
 
 
-# 11. Build and Submit NFT Transaction to Cardano Blockchain
+# 10. Build and Submit NFT Transaction to Cardano Blockchain
 The minting of an NFT on the Cardano network involves a series of intricate steps, from building the transaction to ultimately submitting it to the blockchain. Let's break down this process.
 
-## 11.1. Discovering UTXOs (Unspent Transaction Outputs)
+## 10.1. Discovering UTXOs (Unspent Transaction Outputs)
 Before constructing our transaction, we need to determine the current balance and UTXOs associated with our address. UTXOs are vital components of the Cardano transaction model, representing assets that are yet to be spent.
 ```
 output=3000000
@@ -249,7 +232,7 @@ done < $TXS_PATH/balance.out
 This command will identify and collate all UTXOs related to our address, paving the way for the transaction's construction.
 
 
-## 11.2. Building the Transaction
+## 10.2. Building the Transaction
 Here, we structure the transaction, incorporating details such as the token amount, policy ID, token name, policy script, and our predefined metadata.
 ```
 cardano-cli transaction build \
@@ -266,7 +249,7 @@ cardano-cli transaction build \
 ```
 
 
-## 11.3. Signing the Transaction
+## 10.3. Signing the Transaction
 For security reasons and to validate authenticity, transactions on the Cardano network need to be signed using secret keys associated with the involved assets and addresses.
 ```
 cardano-cli transaction sign  \
@@ -278,13 +261,13 @@ cardano-cli transaction sign  \
 ```
 
 
-## 11.4. Submitting the Transaction
+## 10.4. Submitting the Transaction
 With our signed transaction in hand, the next step is to broadcast it to the Cardano network, allowing it to be validated and recorded on the blockchain.
 ```
 cardano-cli transaction submit --tx-file $TXS_PATH/matx.signed --testnet-magic 2023
 ```
 
-# 12. Verification
+# 11. Verification
 To ensure our NFT has been successfully minted and is now linked to our address, we can check the list of all UTXOs associated with our address.
 ```
 cardano-cli query utxo --address $address --testnet-magic 2023
