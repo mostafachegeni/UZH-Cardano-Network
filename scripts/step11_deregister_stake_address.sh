@@ -42,9 +42,9 @@ tail -n +3 $TXS_PATH/fullUtxo5.out | sort -k3 -nr > $TXS_PATH/balance5.out
 tx_in=""
 total_balance=0
 while read -r utxo; do 
-    type=$(awk '{ print $6 }' <<< "${utxo}") 
-    if [[ ${type} == 'TxOutDatumNone' ]] 
-    then 
+    #type=$(awk '{ print $6 }' <<< "${utxo}") 
+    #if [[ ${type} == 'TxOutDatumNone' ]] 
+    #then 
         in_addr=$(awk '{ print $1 }' <<< "${utxo}") 
         idx=$(awk '{ print $2 }' <<< "${utxo}") 
         utxo_balance=$(awk '{ print $3 }' <<< "${utxo}") 
@@ -52,7 +52,7 @@ while read -r utxo; do
         echo TxHash: ${in_addr}#${idx} 
         echo ADA: ${utxo_balance} 
         tx_in="${tx_in} --tx-in ${in_addr}#${idx}" 
-    fi 
+    #fi 
 done < $TXS_PATH/balance5.out 
 
 
@@ -73,59 +73,36 @@ echo key deposit: $keyDeposit
 
 
 
-
-# Draft the "withdraw + deregistration" transaction to transfer the rewards to a payment address:
-cardano-cli transaction build-raw \
-    ${tx_in} \
-    --tx-out $FAUCET_ADDR+$(( ${total_balance} + ${stakePoolRewards} +${keyDeposit} ))  \
-    --withdrawal $(cat $UTXO_KEYS_PATH/stake.addr)+$(( ${stakePoolRewards} )) \
-    --invalid-hereafter $(( ${currentSlot} + 10000)) \
-    --fee 0 \
-    --certificate-file $TXS_PATH/stake.dereg \
-    --out-file $TXS_PATH/tx5.tmp
-
-
-fee=$(cardano-cli transaction calculate-min-fee \
-    --tx-body-file $TXS_PATH/tx5.tmp \
-    --tx-in-count ${txcnt} \
-    --tx-out-count 1 \
-    --testnet-magic $NETWORK_MAGIC \
-    --witness-count 2 \
-    --byron-witness-count 0 \
-    --protocol-params-file $CNODE_HOME/files/params.json | awk '{ print $1 }')
-echo fee: $fee
-
-
-txOut=$((${total_balance}-${fee}+${stakePoolRewards}+${keyDeposit}))
-echo txOut: ${txOut}
-
+FAUCET_AMOUNT=200000000000000
 
 # Build the transaction:
-cardano-cli transaction build-raw \
+cardano-cli transaction build \
     ${tx_in} \
-    --tx-out $FAUCET_ADDR+${txOut} \
-    --withdrawal $(cat $UTXO_KEYS_PATH/stake.addr)+${stakePoolRewards} \
+    --tx-out $FAUCET_ADDR+$FAUCET_AMOUNT \
+    --change-address $(cat $UTXO_KEYS_PATH/payment.addr) \
+    --testnet-magic $NETWORK_MAGIC \
+    --withdrawal $(cat $UTXO_KEYS_PATH/stake.addr)+$(( ${stakePoolRewards} )) \
     --invalid-hereafter $(( ${currentSlot} + 10000)) \
-    --fee ${fee} \
     --certificate-file $TXS_PATH/stake.dereg \
-    --out-file $TXS_PATH/tx5.raw
-
+    --out-file $TXS_PATH/tx_faucet.raw
 
 
 # Sign the transaction:
 cardano-cli transaction sign \
-    --tx-body-file $TXS_PATH/tx5.raw \
+    --tx-body-file $TXS_PATH/tx_faucet.raw \
     --signing-key-file $UTXO_KEYS_PATH/payment.skey \
     --signing-key-file $UTXO_KEYS_PATH/stake.skey \
     --testnet-magic $NETWORK_MAGIC  \
-    --out-file $TXS_PATH/tx5.signed
+    --out-file $TXS_PATH/tx_faucet.signed
 
 
+echo -n ":::"
+cardano-cli transaction txid --tx-file $TXS_PATH/tx_faucet.signed
+echo -n ":::"
 
 
 # Send the transaction:
-#    --> Output should be aas follows: "Transaction successfully submitted."
-cardano-cli transaction submit \
-    --tx-file $TXS_PATH/tx5.signed \
-    --testnet-magic $NETWORK_MAGIC 
+#    --> Output should be as follows: "Transaction successfully submitted."
+cardano-cli transaction submit --tx-file $TXS_PATH/tx_faucet.signed --testnet-magic $NETWORK_MAGIC
+
 
