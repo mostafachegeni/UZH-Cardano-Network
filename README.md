@@ -27,6 +27,7 @@ To achieve this, use the `chmod +x scripts/*.sh` command, which grants execute p
 By following these steps, you will have the repository set up and scripts ready for execution on your local machine.
 
 ```bash
+[]% cd ~
 []% git clone https://github.com/mostafachegeni/UZH-Cardano-Network
 []% cd UZH-Cardano-Network
 []% chmod +x scripts/*.sh
@@ -182,6 +183,7 @@ In essence, this process ensures that your stake key is formally recognized and 
 
 
 ```bash
+[]% cd ~/UZH-Cardano-Network/
 []% source ./scripts/step6_register_stake_address.sh "pool2"
 # The output should look like this:
 #        POOL_NAME: pool2
