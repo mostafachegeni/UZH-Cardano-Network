@@ -52,13 +52,13 @@ ipfs_hash="QmbqYorMg8xsiUGnmU9dXfHZCvq8kXZYrcUxvScdG5stKV"
 # 4. Copy Payment Keys and Payment Address
 The next pivotal step involves generating the necessary keys and addresses. These are the foundational elements that will enable our token transactions:
 ```
-# copy the keys
 cp ~/keys/utxo-keys/payment.*  ~/nft/ 
 
-#To check if the address has successfully received the funds, use the following command:
 address=$(cat payment.addr)
 
+# Check if the address has successfully received the funds:
 cardano-cli query utxo --address $address --testnet-magic 2023
+
 # The output should look like the following:
 #                            TxHash                                 TxIx        Amount
 # --------------------------------------------------------------------------------------
@@ -80,10 +80,8 @@ Within the Cardano network, each token operation is guided by a specific policy 
   2. They are used for signing the minting transaction, ensuring authenticity and integrity.
 Here's how we can create these keys:
 ```
-# set up a dedicated directory for policy-related files
 mkdir -p policy
 
-# generate the policy keys
 cardano-cli address key-gen \
   --verification-key-file policy/policy.vkey \
   --signing-key-file policy/policy.skey
