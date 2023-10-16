@@ -166,6 +166,9 @@ This step is imperative, as having ADA in your payment address will be essential
 
 
 
+## 5. Mint Native Tokens:
+
+
 
 ## 6. Register Your Stake Address:
 
