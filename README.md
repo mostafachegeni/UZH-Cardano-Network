@@ -156,8 +156,8 @@ Once you receive a balance, it is a confirmation that you have been credited wit
 
 
 
-**IMPORTANT NOTE: It is crucial for participants to note that once you have successfully generated your payment address, you must promptly send this address to the _Teaching Assistants (TAs)_. 
-By doing so, the TAs will ensure that funds (in the form of ADA) are transferred into your respective addresses. 
+**IMPORTANT NOTE: It is crucial for participants to note that once you have successfully generated your payment address, you must promptly send this address to the _Teaching Assistants (TAs)_ through the following form: [UZH-Cardano Payment Address](https://forms.office.com/e/s4hdXGtih5). 
+By doing so, the TAs will ensure that funds (in the form of ADA) are transferred to your respective addresses. 
 This step is imperative, as having ADA in your payment address will be essential for the upcoming operations in the hands-on session.**
 
 
