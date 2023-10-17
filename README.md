@@ -182,6 +182,8 @@ The provided script is designed to generate a certificate named `stake.cert`. Th
 In essence, this process ensures that your stake key is formally recognized and can be utilized in subsequent blockchain operations.
 
 
+**NOTE: To prepare your report, you should keep a record of what is printed by `step6_register_stake_address.sh`.**
+
 ```bash
 []% cd ~/UZH-Cardano-Network/
 []% source ./scripts/step6_register_stake_address.sh "pool2"
@@ -213,6 +215,8 @@ It is essential to grasp some nuances here:
 - **Pledge Flexibility**: While it serves as a commitment, your pledge is not rigidly locked. Stake pool owners retain the freedom to transfer or utilize their funds as they see fit.
 
 
+
+**NOTE: To prepare your report, you should keep a record of what is printed by `step7_register_stake_pool.sh`.**
 
 ```bash
 []% source ./scripts/step7_register_stake_pool.sh "pool2"
@@ -301,6 +305,7 @@ With the necessary groundwork laid, you can then execute the `source ./scripts/s
 from the stake (rewards) address straight to the payment address.
 
 
+**NOTE: To prepare your report, you should keep a record of what is printed by `step9_withdraw_rewards.sh`.**
 
 ```bash
 # Check the current balance of the rewards address:
@@ -315,7 +320,7 @@ from the stake (rewards) address straight to the payment address.
 #        ]
 
 
-# Query the payment address balance (You will withdraw rewards into a payment.addr which will pay for the transaction fees):
+# Query the payment address balance (You will withdraw rewards into your payment address payment.addr):
 []% UTXO_KEYS_PATH=~/keys/utxo-keys; cardano-cli query utxo --testnet-magic 2023 --address $(cat $UTXO_KEYS_PATH/payment.addr)
 # The output should look like this:
 #                                   TxHash                                 TxIx        Amount
@@ -323,7 +328,7 @@ from the stake (rewards) address straight to the payment address.
 #        1adfa1221cfb98d6801bd9481a26b815ea4ce8d09b69e9bc876048bca43ecb19     0        999999497627198 lovelace + TxOutDatumNone
 
 
-# Withdraw rewards from the stake (rewards) address to the payment address:
+# Withdraw rewards from the stake (rewards) address to your payment address:
 []% source ./scripts/step9_withdraw_rewards.sh "pool2"
 # The output should look like this:
 #        POOL_NAME: pool2
@@ -349,6 +354,8 @@ This step ensures a clean exit, allowing for resources to be repurposed or the p
 To execute this de-registration, you will employ the command `source ./scripts/step10_deregister_pool.sh "pool2"`. 
 Once triggered, this script will handle all the intricate details, ensuring `"pool2"` is gracefully removed from the list of active stake pools on the Cardano blockchain.
 
+
+**NOTE: To prepare your report, you should keep a record of what is printed by `step10_deregister_pool.sh`.**
 
 ```bash
 []% source ./scripts/step10_deregister_pool.sh "pool2"
@@ -379,6 +386,8 @@ first, any residual rewards are withdrawn;
 next, the stake address is de-registered; 
 and finally, any remaining funds are returned to the faucet, marking the full closure of the stake address's operations.
 
+
+**NOTE: To prepare your report, you should keep a record of what is printed by `step11_deregister_stake_address.sh`.**
 
 ```bash
 # Withdraw rewards, de-register the stake address, and return the funds to the faucet:
