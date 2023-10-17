@@ -139,6 +139,11 @@ To get an insight, simply run `cardano-cli query utxo --address $(cat ~/keys/utx
 Once you receive a balance, it is a confirmation that you have been credited with ADA in your payment address.
 
 
+**IMPORTANT NOTE: It is crucial for participants to note that once you have successfully generated your payment address, you must promptly send this address to the _Teaching Assistants (TAs)_ through the following form: [UZH-Cardano Payment Address](https://forms.office.com/e/s4hdXGtih5). 
+By doing so, the TAs will ensure that funds (in the form of ADA) are transferred to your respective addresses. 
+This step is imperative, as having ADA in your payment address will be essential for the upcoming operations in the hands-on session.**
+
+
 ```bash
 []% source ./scripts/step4_setup_payment_stake_keys.sh "pool2"
 # The output should look like this:
@@ -159,11 +164,6 @@ Once you receive a balance, it is a confirmation that you have been credited wit
 #    ee5235df0f649c44cca5fbe445eb8b71f165a301e1da39d764d3ccd310b67513     0        2000000000000000 lovelace + TxOutDatumNone
 ```
 
-
-
-**IMPORTANT NOTE: It is crucial for participants to note that once you have successfully generated your payment address, you must promptly send this address to the _Teaching Assistants (TAs)_ through the following form: [UZH-Cardano Payment Address](https://forms.office.com/e/s4hdXGtih5). 
-By doing so, the TAs will ensure that funds (in the form of ADA) are transferred to your respective addresses. 
-This step is imperative, as having ADA in your payment address will be essential for the upcoming operations in the hands-on session.**
 
 
 
