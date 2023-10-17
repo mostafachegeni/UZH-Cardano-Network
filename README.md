@@ -68,9 +68,11 @@ and `$CNODE_HOME/scripts/gLiveView.sh` offers an interactive view of our node's 
 
 ```bash
 # Check status of the service:
+# To return to the terminal, press Ctrl+c.
 []% sudo systemctl status cnode.service
 
 # Check startup attempts for the cnode service:
+# To return to the terminal, press Ctrl+c.
 []% journalctl -u cnode -f
 
 # Check the tip of the blockchain:
@@ -116,13 +118,14 @@ This indicates the successful transition of your node into a block-producing ent
 []% sudo systemctl restart cnode.service
 
 # Monitor the service:
+# To return to the terminal, press Ctrl+c.
 []% sudo systemctl status cnode.service
 []% journalctl -u cnode -f
 
-# Check the tip of the blockchain:
+# Check the tip of the blockchain. You can also check the node's synchronization percentage to the blockchain:
 []% cardano-cli query tip --testnet-magic 2023
 
-# Make sure that a "BLOCK PRODUCTION" section is added to the panel.
+# Make sure that a "BLOCK PRODUCTION" section is added to the panel. This will appear after you are 100.0% synchronized to the blockchain.
 []% $CNODE_HOME/scripts/gLiveView.sh
 ```
 
@@ -240,7 +243,7 @@ It is essential to grasp some nuances here:
 #            (fromList [TxIn (TxId {unTxId = SafeHash "4c63b4286007e17f517a156c70538ce068f417e4190d15e710f317437c8d60ef"}) (TxIx 0)]))))])
 #
 #        Solution:
-#            Re-run the script
+#            Wait a few seconds after registering your stake address and then re-run the script.
 #        ------------------------------------------
 ```
 
@@ -263,7 +266,7 @@ If this command yields a non-empty string, rejoice! This indicates that your sta
 
 # Use the stake pool ID to verify it is included in the blockchain:
 []% POOL_KEYS_PATH=~/keys/pool-keys; cardano-cli query stake-snapshot --stake-pool-id $(cardano-cli stake-pool id --cold-verification-key-file $POOL_KEYS_PATH/node.vkey) --testnet-magic 2023  
-# The output should look like this (After 3 epochs i.e. ~1.5 hour):
+# The output should look like this (After 3 epochs i.e., ~1.5 hour):
 #        {
 #            "pools": {
 #                "249b04caca6a6c092f630ace0588ac63110cc6fa816e19991cbddcd7": {
@@ -288,6 +291,14 @@ If this command yields a non-empty string, rejoice! This indicates that your sta
 #             14078                   2023-08-28 21:30:41 UTC
 #             14131                   2023-08-28 21:31:34 UTC
 #             14198                   2023-08-28 21:32:41 UTC
+#
+#        ------------------------------------------
+#        possible error:
+#            Command failed: query leadership-schedule  Error: The stake pool: "8e488eb0bed88a1864531f357df7b056745b9380ac36d6bb49e4af3e" has no stake
+#
+#        Solution:
+#            Wait two epochs (~ 1 hour) after registering your stake pool and then re-run the command.
+#        ------------------------------------------
 ```
 
 
@@ -310,7 +321,7 @@ from the stake (rewards) address straight to the payment address.
 ```bash
 # Check the current balance of the rewards address:
 []% UTXO_KEYS_PATH=~/keys/utxo-keys; cardano-cli query stake-address-info --testnet-magic 2023 --address $(cat $UTXO_KEYS_PATH/stake.addr)
-# The output should look like this (after 4 epochs i.e. ~2 hours):
+# The output should look like this (after 4 epochs i.e., ~2 hours):
 #        [
 #            {
 #                "address": "stake_test1uzehfqwhq8yr8fh3rcnqwnvezq23aah2qd8xsjsatca3p2c662rjw",
