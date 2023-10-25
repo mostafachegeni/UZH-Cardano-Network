@@ -107,7 +107,7 @@ directories=(
 for dir in "${directories[@]}"; do
   if [ -e "$dir" ]; then
     if [ -d "$dir" ]; then
-      rm -r "$dir"
+      rm -rf "$dir"
       echo "Removed directory: $dir"
     else
       echo "Not a directory: $dir"
