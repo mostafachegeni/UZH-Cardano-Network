@@ -67,3 +67,32 @@ cardano-cli transaction submit --tx-file $TXS_PATH/tx_reset.signed --testnet-mag
 mv $TXS_PATH/tx_reset.raw $TXS_PATH/tx_reset.raw.sent
 mv $TXS_PATH/tx_reset.signed $TXS_PATH/tx_reset.signed.sent
 
+
+# backup all generated keys:
+sudo cp -r keys /keys_bkp
+
+
+# List of directories to be removed
+directories=(
+  ~/keys
+  ~/nft
+  ~/tmp
+  ~/txs
+  ~/UZH-Cardano-Network
+  /opt/cardano/cnode/*
+)
+
+# Loop through the list of directories and remove them
+for dir in "${directories[@]}"; do
+  if [ -e "$dir" ]; then
+    if [ -d "$dir" ]; then
+      rm -r "$dir"
+      echo "Removed directory: $dir"
+    else
+      echo "Not a directory: $dir"
+    fi
+  else
+    echo "Directory does not exist: $dir"
+  fi
+done
+
