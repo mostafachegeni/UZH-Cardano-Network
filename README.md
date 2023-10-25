@@ -415,5 +415,23 @@ and finally, any remaining funds are returned to the faucet, marking the full cl
 #        fee: 181077
 #        txOut: 1110103489977094
 #        Transaction successfully submitted.
+#        ------------------------------------------
+#        possible error:
+#            Command failed: transaction submit  Error: Error while submitting tx: ShelleyTxValidationError ShelleyBasedEraBabbage (ApplyTxError [UtxowFailure (UtxoFailure (AlonzoInBabbageUtxoPredFailure
+#            (ValueNotConservedUTxO (MaryValue 2000000 (MultiAsset (fromList []))) (MaryValue 220861881714956 (MultiAsset (fromList [(PolicyID {policyID = ScriptHash
+#            "430a715e59527782e67ec976894e4d0f878ac9ad3d26285ec8438e0b"},fromList [("4e465431",1)])])))))),UtxowFailure (UtxoFailure (AlonzoInBabbageUtxoPredFailure (BadInputsUTxO (fromList [TxIn (TxId {unTxId = SafeHash
+#            "02deae7abefb45664160ab7f35e46b99be2ccf6951b102e5875df443057f7d80"}) (TxIx 0),TxIn (TxId {unTxId = SafeHash "cfb2d0353374a336029047b7aad90ad15266e2b7a91972820cf90b2db9c6d79f"}) (TxIx 0)]))))])
+#
+#        Solution:
+#            Wait a few seconds after de-registering your stake pool and then re-run the script.
+#        ------------------------------------------
+
+
+# Ensure you still have your rewards and minted NFT in your address:
+[]% UTXO_KEYS_PATH=~/keys/utxo-keys; cardano-cli query utxo --testnet-magic 2023 --address $(cat $UTXO_KEYS_PATH/payment.addr)
+# The output should look like this:
+#                                  TxHash                                 TxIx        Amount
+#        --------------------------------------------------------------------------------------
+#        574ffb32b143a49f102b967c11975b871b656f5751f9ed058a704eeb6a1f5ed6     1        20861881362218 lovelace + 1 430a715e59527782e67ec976894e4d0f878ac9ad3d26285ec8438e0b.4e465431 + TxOutDatumNone
 ```
 
