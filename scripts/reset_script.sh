@@ -69,7 +69,7 @@ mv $TXS_PATH/tx_reset.signed $TXS_PATH/tx_reset.signed.sent
 
 
 
-# Check if cnode.service is running
+# Check if cnode.service is running, stop it:
 if systemctl is-active --quiet cnode.service; then
     echo "Stopping cnode.service..."
     sudo systemctl stop cnode.service
