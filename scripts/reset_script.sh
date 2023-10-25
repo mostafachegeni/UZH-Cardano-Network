@@ -70,7 +70,7 @@ if [[ $output == *"Transaction successfully submitted"* ]]; then
     echo "Transaction successfully submitted."
 else
     echo "Tx (Return Funds) failed !"
-    exit 1  # Exit the script with a non-zero status code to indicate failure
+    exit 2  # Exit the script with a non-zero status code to indicate failure
 fi
 
 #rm $TXS_PATH/tx_reset.raw
