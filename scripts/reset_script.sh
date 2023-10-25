@@ -68,8 +68,8 @@ mv $TXS_PATH/tx_reset.raw $TXS_PATH/tx_reset.raw.sent
 mv $TXS_PATH/tx_reset.signed $TXS_PATH/tx_reset.signed.sent
 
 
-# backup all generated keys:
-sudo cp -r keys /keys_bkp
+# Backup all generated keys:
+cp -r ~/keys /tmp/keys.bkp
 
 
 # List of directories to be removed
