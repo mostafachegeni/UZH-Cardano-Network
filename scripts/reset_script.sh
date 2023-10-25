@@ -68,10 +68,9 @@ output=$(cardano-cli transaction submit --tx-file "$TXS_PATH/tx_reset.signed" --
 # Check if the output contains "Transaction successfully submitted"
 if [[ $output == *"Transaction successfully submitted"* ]]; then
     echo "Transaction successfully submitted."
-    # Continue with the rest of your script here
 else
     echo "Tx (Return Funds) failed !"
-    # You may choose to handle the failure or add error-handling code here
+    exit 1  # Exit the script with a non-zero status code to indicate failure
 fi
 
 #rm $TXS_PATH/tx_reset.raw
