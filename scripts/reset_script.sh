@@ -96,3 +96,5 @@ for dir in "${directories[@]}"; do
   fi
 done
 
+
+
