@@ -61,7 +61,18 @@ echo -n ":::TX_ID = "
 cardano-cli transaction txid --tx-file $TXS_PATH/tx_reset.signed
 echo -n ":::"
 
-cardano-cli transaction submit --tx-file $TXS_PATH/tx_reset.signed --testnet-magic $NETWORK_MAGIC
+# Run the cardano-cli command and capture its output
+#cardano-cli transaction submit --tx-file $TXS_PATH/tx_reset.signed --testnet-magic $NETWORK_MAGIC
+output=$(cardano-cli transaction submit --tx-file "$TXS_PATH/tx_reset.signed" --testnet-magic "$NETWORK_MAGIC" 2>&1)
+
+# Check if the output contains "Transaction successfully submitted"
+if [[ $output == *"Transaction successfully submitted"* ]]; then
+    echo "Transaction successfully submitted."
+    # Continue with the rest of your script here
+else
+    echo "Transaction submission failed or did not contain the expected message."
+    # You may choose to handle the failure or add error-handling code here
+fi
 
 #rm $TXS_PATH/tx_reset.raw
 mv $TXS_PATH/tx_reset.raw $TXS_PATH/tx_reset.raw.sent
