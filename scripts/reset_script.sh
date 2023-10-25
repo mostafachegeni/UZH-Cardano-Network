@@ -70,7 +70,7 @@ if [[ $output == *"Transaction successfully submitted"* ]]; then
     echo "Transaction successfully submitted."
     # Continue with the rest of your script here
 else
-    echo "Transaction submission failed or did not contain the expected message."
+    echo "Transaction submission failed !"
     # You may choose to handle the failure or add error-handling code here
 fi
 
