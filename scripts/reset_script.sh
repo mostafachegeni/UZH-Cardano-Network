@@ -68,6 +68,17 @@ mv $TXS_PATH/tx_reset.raw $TXS_PATH/tx_reset.raw.sent
 mv $TXS_PATH/tx_reset.signed $TXS_PATH/tx_reset.signed.sent
 
 
+
+# Check if cnode.service is running
+if systemctl is-active --quiet cnode.service; then
+    echo "Stopping cnode.service..."
+    sudo systemctl stop cnode.service
+    echo "cnode.service has been stopped."
+else
+    echo "cnode.service is not running."
+fi
+
+
 # Backup all generated keys:
 cp -r ~/keys /tmp/keys.bkp
 
