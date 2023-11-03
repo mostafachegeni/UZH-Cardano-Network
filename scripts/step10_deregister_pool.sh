@@ -88,6 +88,7 @@ cardano-cli transaction build \
     --testnet-magic $NETWORK_MAGIC \
     --invalid-hereafter $(( ${currentSlot} + 10000)) \
     --certificate-file $TXS_PATH/pool.dereg \
+    --witness-override 2 \
     --out-file $TXS_PATH/tx4.raw
 
 
