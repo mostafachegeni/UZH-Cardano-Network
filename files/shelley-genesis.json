@@ -1,0 +1,64 @@
+{
+    "epochLength": 2000,
+    "activeSlotsCoeff": 0.05,
+    "slotLength": 1,
+    "securityParam": 10,
+    "genDelegs": {},
+    "initialFunds": {
+        "0047e1e7cca28f85f2406c337b3055b0f27ad5fb0437c031ca3dea6406dd024cdd3dd83d57cf4d80fb80cdea51cc6d976ed95df95884645aa1": 15000000000000000
+    },
+    "maxKESEvolutions": 62,
+    "maxLovelaceSupply": 45000000000000000,
+    "networkId": "Testnet",
+    "networkMagic": 2023,
+    "protocolParams": {
+        "a0": 0.3,
+        "decentralisationParam": 0,
+        "eMax": 18,
+        "extraEntropy": {
+            "tag": "NeutralNonce"
+        },
+        "keyDeposit": 2000000,
+        "maxBlockBodySize": 65536,
+        "maxBlockHeaderSize": 1100,
+        "maxTxSize": 16384,
+        "minFeeA": 44,
+        "minFeeB": 155381,
+        "minPoolCost": 340000000,
+        "minUTxOValue": 1000000,
+        "nOpt": 100,
+        "poolDeposit": 500000000,
+        "protocolVersion": {
+            "major": 7,
+            "minor": 0
+        },
+        "rho": 0.003,
+        "tau": 0.2
+    },
+    "slotsPerKESPeriod": 129600,
+    "staking": {
+        "pools": {
+            "b75e803d3fe4cc40ba00d5c91e6fa7ec4aee62ecd668e1d8d8cc5024": {
+                "cost": 340000000,
+                "margin": 0.0,
+                "metadata": null,
+                "owners": [],
+                "pledge": 0,
+                "publicKey": "b75e803d3fe4cc40ba00d5c91e6fa7ec4aee62ecd668e1d8d8cc5024",
+                "relays": [],
+                "rewardAccount": {
+                    "credential": {
+                        "key hash": "b75e803d3fe4cc40ba00d5c91e6fa7ec4aee62ecd668e1d8d8cc5024"
+                    },
+                    "network": "Testnet"
+                },
+                "vrf": "4098d1f1e818fa5709a13ea815e23385ce4ef6d9cd3ec1a70c6a20702c2f456f"
+            }
+        },
+        "stake": {
+            "dd024cdd3dd83d57cf4d80fb80cdea51cc6d976ed95df95884645aa1": "b75e803d3fe4cc40ba00d5c91e6fa7ec4aee62ecd668e1d8d8cc5024"
+        }
+    },
+    "systemStart": "2024-02-12T17:32:41Z",
+    "updateQuorum": 1
+}
