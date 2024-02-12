@@ -23,7 +23,7 @@ chmod 755 "$TMP_PATH/guild-deploy.sh"
 
 
 # Define the export line you want to add, for example:
-EXPORT_LINE='export CARDANO_NODE_SOCKET_PATH="${CNODE_HOME}/sockets/node0.socket"'
+EXPORT_LINE='export CARDANO_NODE_SOCKET_PATH="${CNODE_HOME}/sockets/node.socket"'
 if ! grep -qF "$EXPORT_LINE" ~/.bashrc; then
     # If the line does not exist, append it
     echo "$EXPORT_LINE" >> ~/.bashrc
