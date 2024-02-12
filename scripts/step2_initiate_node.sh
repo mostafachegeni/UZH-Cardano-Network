@@ -55,6 +55,11 @@ cat > "$CNODE_HOME/files"/topology.json << EOF
       "addr": "172.23.57.68",
       "port": 6000,
       "valency": 1
+    },
+    {
+      "addr": "172.23.57.69",
+      "port": 6000,
+      "valency": 1
     }
 ]}
 EOF
