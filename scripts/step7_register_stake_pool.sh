@@ -25,7 +25,7 @@ echo minPoolCost: ${minPoolCost}
 cardano-cli stake-pool registration-certificate \
     --cold-verification-key-file $POOL_KEYS_PATH/node.vkey \
     --vrf-verification-key-file $POOL_KEYS_PATH/vrf.vkey \
-    --pool-pledge 1000000000000 \
+    --pool-pledge 100000000 \
     --pool-cost 345000000 \
     --pool-margin 0.15 \
     --pool-reward-account-verification-key-file $UTXO_KEYS_PATH/stake.vkey \
