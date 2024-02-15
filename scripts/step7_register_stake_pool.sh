@@ -20,12 +20,12 @@ echo minPoolCost: ${minPoolCost}
 
 
 # Create a "registration certificate" for the stake pool:
-#    --> Here we are pledging 100 ADA with a fixed pool cost of 345 ADA and a pool margin of 15%.
+#    --> Here we are pledging 1000000 ADA with a fixed pool cost of 345 ADA and a pool margin of 15%.
 #cd $POOL_KEYS_PATH
 cardano-cli stake-pool registration-certificate \
     --cold-verification-key-file $POOL_KEYS_PATH/node.vkey \
     --vrf-verification-key-file $POOL_KEYS_PATH/vrf.vkey \
-    --pool-pledge 100000000 \
+    --pool-pledge 1000000000000 \
     --pool-cost 345000000 \
     --pool-margin 0.15 \
     --pool-reward-account-verification-key-file $UTXO_KEYS_PATH/stake.vkey \
