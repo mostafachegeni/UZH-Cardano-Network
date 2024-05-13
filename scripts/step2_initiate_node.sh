@@ -47,17 +47,22 @@ cp "$SCRIPT_DIR/../files"/* "$CNODE_HOME/files/"
 cat > "$CNODE_HOME/files"/topology.json << EOF
 {"Producers": [
     {
-      "addr": "172.23.57.67",
+      "addr": "130.60.144.50",
       "port": 6000,
       "valency": 1
     },
     {
-      "addr": "172.23.57.68",
+      "addr": "130.60.144.49",
       "port": 6000,
       "valency": 1
     },
     {
       "addr": "172.23.57.69",
+      "port": 6000,
+      "valency": 1
+    },
+    {
+      "addr": "172.23.57.67",
       "port": 6000,
       "valency": 1
     }
