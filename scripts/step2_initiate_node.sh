@@ -43,7 +43,7 @@ fi
 rm "$CNODE_HOME/files"/*
 cp "$SCRIPT_DIR/../files"/* "$CNODE_HOME/files/"
 
-# Update "topology file" to be able to connect to the "Relay Nodes (172.23.57.67 / 130.60.144.49)" and "Bootstrap Node (130.60.144.50)" and "Backup Main Producer (172.23.57.69)":
+# Update "topology file" to be able to connect to the "Relay Nodes (172.23.61.236 / 130.60.144.49)" and "Bootstrap Node (130.60.144.50)" and "Backup Main Producer (172.23.61.237)":
 cat > "$CNODE_HOME/files"/topology.json << EOF
 {"Producers": [
     {
@@ -57,12 +57,12 @@ cat > "$CNODE_HOME/files"/topology.json << EOF
       "valency": 1
     },
     {
-      "addr": "172.23.57.69",
+      "addr": "172.23.61.237",
       "port": 6000,
       "valency": 1
     },
     {
-      "addr": "172.23.57.67",
+      "addr": "172.23.61.236",
       "port": 6000,
       "valency": 1
     }
