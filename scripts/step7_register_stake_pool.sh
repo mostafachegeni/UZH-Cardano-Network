@@ -19,6 +19,12 @@ minPoolCost=$(cat $CNODE_HOME/files/params.json | jq -r .minPoolCost)
 echo minPoolCost: ${minPoolCost}
 
 
+# Generate the Pool Metadata hash:
+cardano-cli stake-pool metadata-hash --pool-metadata-file ~/UZH-Cardano-Network/md.json > ~/UZH-Cardano-Network/poolMetaDataHash.txt
+poolMetaHash=$(cat poolMetaDataHash.txt)
+echo poolMetaHash: ${poolMetaHash}
+
+
 # Create a "registration certificate" for the stake pool:
 #    --> Here we are pledging 1000000 ADA with a fixed pool cost of 345 ADA and a pool margin of 15%.
 #cd $POOL_KEYS_PATH
@@ -31,6 +37,10 @@ cardano-cli stake-pool registration-certificate \
     --pool-reward-account-verification-key-file $UTXO_KEYS_PATH/stake.vkey \
     --pool-owner-stake-verification-key-file $UTXO_KEYS_PATH/stake.vkey \
     --testnet-magic 2023 \
+    --single-host-pool-relay 130.60.144.49 \
+    --pool-relay-port 6000 \
+    --metadata-url ~/UZH-Cardano-Network/md.json \
+    --metadata-hash $(cat ~/UZH-Cardano-Network/poolMetaDataHash.txt) \
     --out-file $POOL_KEYS_PATH/pool.cert
 
 
