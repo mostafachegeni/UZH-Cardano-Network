@@ -287,6 +287,9 @@
   "committee": {
     "members": {
     },
-    "quorum": 0
+    "threshold": {
+      "numerator": 2,
+      "denominator": 3
+    }
   }
 }
