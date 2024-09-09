@@ -15,7 +15,8 @@ TMP_PATH=~/tmp
 
 
 mkdir -p "$TMP_PATH"
-curl -sS -o "$TMP_PATH/guild-deploy.sh" https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/guild-deploy.sh
+#curl -sS -o "$TMP_PATH/guild-deploy.sh" https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/guild-deploy.sh
+cp ~/UZH-Cardano-Network/guild-deploy.sh $TMP_PATH
 chmod 755 "$TMP_PATH/guild-deploy.sh"
 
 # Download the latest pre-built "binaries" available which will be stored in the ~/.local/bin directory:
