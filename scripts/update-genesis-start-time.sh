@@ -55,13 +55,24 @@ sed -i "s/\"systemStart\": \".*\"/\"systemStart\": \"$SYSTEM_START\"/" "template
 sed -i "s/\"protocolMagic\": [0-9]*/\"protocolMagic\": $NETWORK_MAGIC/" "templates/genesis-byron.json" 
 sed -i "s/\"networkMagic\": [0-9]*/\"networkMagic\": $NETWORK_MAGIC/" "templates/genesis-shelley.json" 
 
+#cp templates/genesis-byron.json $CNODE_HOME/files/byron-genesis.json
+#cp templates/genesis-shelley.json $CNODE_HOME/files/shelley-genesis.json
+#cp templates/genesis-alonzo.json $CNODE_HOME/files/alonzo-genesis.json
+#cp templates/conway-genesis.json $CNODE_HOME/files/conway-genesis.json
+#cp templates/cardano-node.json $CNODE_HOME/files/config.json
+#cp templates/dbsync.json $CNODE_HOME/files/dbsync.json
+#cp templates/topology.json $CNODE_HOME/files/topology.json
+
+
 cp templates/genesis-byron.json $CNODE_HOME/files/byron-genesis.json
 cp templates/genesis-shelley.json $CNODE_HOME/files/shelley-genesis.json
 cp templates/genesis-alonzo.json $CNODE_HOME/files/alonzo-genesis.json
 cp templates/conway-genesis.json $CNODE_HOME/files/conway-genesis.json
-cp templates/cardano-node.json $CNODE_HOME/files/config.json
-cp templates/dbsync.json $CNODE_HOME/files/dbsync.json
+cp templates/config.json $CNODE_HOME/files/config.json
+cp templates/db-sync-config.json $CNODE_HOME/files/db-sync-config.json
 cp templates/topology.json $CNODE_HOME/files/topology.json
+
+
 
 
 
