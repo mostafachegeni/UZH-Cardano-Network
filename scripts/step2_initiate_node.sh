@@ -22,6 +22,9 @@ chmod 755 "$TMP_PATH/guild-deploy.sh"
 # Download the latest pre-built "binaries" available which will be stored in the ~/.local/bin directory:
 "$TMP_PATH/guild-deploy.sh" -s d
 
+"$TMP_PATH/guild-deploy.sh" -s d
+
+
 
 # Define the export line you want to add, for example:
 EXPORT_LINE='export CARDANO_NODE_SOCKET_PATH="${CNODE_HOME}/sockets/node.socket"'
