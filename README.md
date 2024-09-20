@@ -105,6 +105,8 @@ This indicates the successful transition of your node into a block-producing ent
 
 
 ```bash
+[]% cd UZH-Cardano-Network
+
 []% source ./scripts/step3_generate_pool_keys.sh "pool2"
 # The output should look like this:
 #        POOL_NAME: pool2
