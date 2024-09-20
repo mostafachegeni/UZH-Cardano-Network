@@ -1,0 +1,1 @@
+declare -A geoIP=([130.60.144.50]="Rorschacherberg, CH" [130.60.144.49]="Rorschacherberg, CH" )
