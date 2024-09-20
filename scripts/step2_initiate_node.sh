@@ -25,6 +25,19 @@ chmod 755 "$TMP_PATH/guild-deploy.sh"
 "$TMP_PATH/guild-deploy.sh" -s d
 
 
+# Replace scripts and binaries:
+rm -f /opt/cardano/cnode/scripts/*
+cp ~/UZH-Cardano-Network/cnode_scripts/* /opt/cardano/cnode/scripts/
+cd /opt/cardano/cnode/scripts/
+chmod +x  blockPerf.sh cabal-build-all.sh cncli.sh cnode.sh cntools.sh dbsync.sh deploy-as-systemd.sh gLiveView.sh logMonitor.sh mithril-client.sh mithril-relay.sh mithril-signer.sh ogmios.sh setup-grest.sh setup_mon.sh submitapi.sh topologyUpdater.sh
+
+rm -rf ~/.local/bin/*
+cd ~/UZH-Cardano-Network/bin
+unzip '*.zip' -d ~/.local/bin/
+cd ~/.local/bin/
+chmod +x  bech32 cardano-address cardano-cli cardano-db-sync cardano-node cardano-submit-api
+
+
 
 # Define the export line you want to add, for example:
 EXPORT_LINE='export CARDANO_NODE_SOCKET_PATH="${CNODE_HOME}/sockets/node.socket"'
