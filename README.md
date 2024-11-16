@@ -439,4 +439,299 @@ and finally, any remaining funds are returned to the faucet, marking the full cl
 
 
 ***
+***
+***
+***
+***
+
+
+# Setup a Bootstrap Node for UZH-Cardano Network
+
+## Folder Structure: Using Guild Operator Scripts
+
+```bash
+mkdir "$HOME/tmp"
+cd "$HOME/tmp"
+
+curl -sS -o guild-deploy.sh https://raw.githubusercontent.com/cardano-community/guild-operators/master/scripts/cnode-helper-scripts/guild-deploy.sh
+
+chmod 755 guild-deploy.sh
+
+./guild-deploy.sh -s d
+
+source ~/.bashrc
+```
+
+## Clone the UZH-Cardano Network Repository
+
+```bash
+git clone https://github.com/mostafachegeni/UZH-Cardano-Network
+cd UZH-Cardano-Network
+chmod +x scripts/*.sh
+source env.sh
+```
+
+## Set Up Environment Variables
+
+Edit your `.bashrc` file:
+
+```bash
+vim ~/.bashrc
+```
+
+Add the following line:
+
+```bash
+export CARDANO_NODE_SOCKET_PATH="${CNODE_HOME}/sockets/node.socket"
+```
+
+Reload `.bashrc`:
+
+```bash
+source ~/.bashrc
+```
+
+## Update Genesis Files
+
+Run the following script:
+
+```bash
+source ./scripts/update-genesis-start-time.sh "pool1"
+```
+
+## Update the Topology File
+
+
+```bash
+vim /opt/cardano/cnode/files/topology.json
+```
+
+Add the following content:
+
+```json
+{
+  "Producers": [
+    {
+      "addr": "??.??.??.??",
+      "port": ????,
+      "valency": 1
+    },
+    {
+      "addr": "??.??.??.??",
+      "port": ????,
+      "valency": 1
+    }
+  ]
+}
+```
+
+## Deploying a Private Instance
+
+Deploy the Cardano node as a systemd service:
+
+```bash
+cd $CNODE_HOME/scripts
+./cnode.sh -d
+```
+
+Start the service:
+
+```bash
+sudo systemctl start cnode.service
+```
+
+Check the status of the service:
+
+```bash
+sudo systemctl status cnode.service
+```
+
+Query the tip of the blockchain:
+
+```bash
+cardano-cli query tip --testnet-magic 2023
+```
+
+
+
+
+
+***
+***
+***
+***
+***
+
+
+# Cardano DB-Sync and Blockfrost Setup
+
+## Prerequisites
+Ensure the following tools and dependencies are installed:
+- PostgreSQL
+- Docker
+- Cardano Node
+- Git
+
+---
+
+## 1. DB-Sync Setup
+
+### Configure dbsync.json
+```bash
+vim /opt/cardano/cnode/files/dbsync.json
+```
+Update:
+```json
+"RequiresNetworkMagic": "RequiresMagic",
+"minSeverity": "Info",
+```
+
+### Update dbsync.sh
+```bash
+vim /opt/cardano/cnode/scripts/dbsync.sh
+```
+Replace with:
+```bash
+export PGPASSFILE
+"${DBSYNCBIN}" \
+  --config "${DBSYNC_CONFIG}" \
+  --socket-path "${CARDANO_NODE_SOCKET_PATH}" \
+  --schema-dir "${DBSYNC_SCHEMA_DIR}" \
+  --state-dir "${DBSYNC_STATE_DIR}" \
+  --force-tx-in \
+  --full \
+  ${DBSYNC_ARGS}
+```
+
+### Update environment
+```bash
+vim /opt/cardano/cnode/scripts/env
+```
+Set:
+```bash
+CNODE_HOME="/opt/cardano/cnode"
+```
+
+### Restart cnode
+```bash
+sudo systemctl restart cnode
+~/.local/bin/cardano-db-sync version
+```
+
+### Download submit-api-config.json
+```bash
+cd /opt/cardano/cnode/files
+wget https://book.world.dev.cardano.org/environments/preview/submit-api-config.json
+```
+
+### Clone db-sync Repository
+```bash
+cd ~/git
+git clone https://github.com/intersectmbo/cardano-db-sync
+cd cardano-db-sync
+~/git/cardano-db-sync/scripts/postgresql-setup.sh --createdb
+```
+
+### Create Schema Symlink
+```bash
+ln -s ~/git/cardano-db-sync/schema $CNODE_HOME/guild-db/schema
+```
+
+### Start DB-Sync
+```bash
+export PGPASSFILE=$CNODE_HOME/priv/.pgpass
+$CNODE_HOME/scripts/dbsync.sh -d
+sudo systemctl enable cnode-dbsync
+sudo systemctl start cnode-dbsync
+sudo systemctl status cnode-dbsync
+```
+
+### Verify DB Sync
+```bash
+psql cexplorer
+SELECT count(*) FROM tx_in;
+```
+
+---
+
+## 2. Blockfrost Setup
+
+### Clone Blockfrost Repository
+```bash
+cd ~/git
+git clone https://github.com/blockfrost/blockfrost-backend-ryo
+cd blockfrost-backend-ryo
+```
+
+### Configure development.yaml
+```bash
+cd ~/git/blockfrost-backend-ryo/config
+vim ./development.yaml
+```
+Set the following:
+```yaml
+server:
+  listenAddress: "0.0.0.0"
+  port: 3000
+  debug: true
+dbSync:
+  host: "localhost"
+  port: ?????
+  user: "?????"
+  database: "cexplorer"
+  password: "?????"
+  maxConnections: 10
+network: "preview"
+```
+
+### Run Blockfrost in Docker
+```bash
+sudo apt install docker.io
+sudo docker run --rm \
+  --name blockfrost-ryo \
+  --network host \
+  -p 3000:3000 \
+  -e BLOCKFROST_CONFIG_SERVER_LISTEN_ADDRESS=0.0.0.0 \
+  -e BLOCKFROST_CONFIG_SERVER_PORT=3000 \
+  -e BLOCKFROST_CONFIG_SERVER_DEBUG=True \
+  -e BLOCKFROST_CONFIG_SERVER_PROMETHEUS_METRICS=False \
+  -e BLOCKFROST_CONFIG_DBSYNC_HOST=localhost \
+  -e BLOCKFROST_CONFIG_DBSYNC_PORT=????? \
+  -e BLOCKFROST_CONFIG_DBSYNC_USER=????? \
+  -e BLOCKFROST_CONFIG_DBSYNC_DATABASE=cexplorer \
+  -e BLOCKFROST_CONFIG_DBSYNC_MAX_CONN=10 \
+  -e BLOCKFROST_CONFIG_NETWORK=preview \
+  -e BLOCKFROST_CONFIG_DBSYNC_PASSWORD=????? \
+  -e BLOCKFROST_CONFIG_TOKEN_REGISTRY_URL="https://metadata.world.dev.cardano.org" \
+  -v $PWD/config:/app/config \
+  blockfrost/backend-ryo:latest
+```
+
+### Configure Submit API
+```bash
+vim /opt/cardano/cnode/scripts/submitapi.sh
+```
+Set:
+```bash
+HOSTADDR=0.0.0.0
+HOSTPORT=8090
+"${SUBMITAPIBIN}" --config "/opt/cardano/cnode/files/submit-api-config.json" \\
+  --testnet-magic 2023 --socket-path "${CARDANO_NODE_SOCKET_PATH}" \\
+  --listen-address ${HOSTADDR} --port ${HOSTPORT}
+```
+
+### Start Submit API
+```bash
+/opt/cardano/cnode/scripts/submitapi.sh -d
+sudo systemctl enable cnode-submit-api
+sudo systemctl start cnode-submit-api
+sudo systemctl status cnode-submit-api
+```
+
+### Health Check
+```bash
+curl http://localhost:3000/health
+curl http://<server_ip>:3000/health
+  {"is_healthy":true}
+```
 
