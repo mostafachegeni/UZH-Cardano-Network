@@ -507,6 +507,42 @@ Reload `.bashrc`:
 source ~/.bashrc
 ```
 
+
+Edit `env` file in $CNODE_HOME:
+```bash
+vim $CNODE_HOME/scripts/env
+```
+
+Set the `POOL_NAME` variable:
+```bash
+POOL_NAME="pool1"
+```
+
+
+
+Edit `env` file in UZH-Cardano-Network:
+```bash
+vim ~/UZH-Cardano-Network/env.sh
+```
+
+Set the variables:
+```bash
+# Cardano Network Parameters
+export NETWORK_MAGIC=2023
+export DELAY=5
+export K=10
+export F=0.05
+export SLOT_LENGTH=1
+export POOL_NAME=pool1
+```
+
+Reload `env` file in UZH-Cardano-Network:
+
+```bash
+source ~/UZH-Cardano-Network/env.sh
+```
+
+
 ## Update Genesis Files
 
 Run the following script:
