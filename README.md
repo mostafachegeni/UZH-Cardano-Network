@@ -483,10 +483,7 @@ chmod 755 guild-deploy.sh
 source ~/.bashrc
 ```
 
-Also, copy all scripts from "~/UZH-Cardano-Network/cnode_scripts/" to "/opt/cardano/cnode/scripts/"
-and copy binaries zipped in "~/UZH-Cardano-Network/bin" to "~/.local/bin/".
-
-Give them all "execution" permission.
+Also, copy all scripts from `~/UZH-Cardano-Network/cnode_scripts/` to `/opt/cardano/cnode/scripts/` and copy binaries zipped in `~/UZH-Cardano-Network/bin` to `~/.local/bin/`. Give them all `execution` permission.
 
 
 
