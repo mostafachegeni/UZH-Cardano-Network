@@ -447,6 +447,16 @@ and finally, any remaining funds are returned to the faucet, marking the full cl
 
 # Setup a Bootstrap Node for UZH-Cardano Network
 
+## Clone the UZH-Cardano Network Repository
+
+```bash
+git clone https://github.com/mostafachegeni/UZH-Cardano-Network
+cd UZH-Cardano-Network
+chmod +x scripts/*.sh
+source env.sh
+```
+
+
 ## Folder Structure: Using Guild Operator Scripts
 
 ```bash
@@ -462,14 +472,23 @@ chmod 755 guild-deploy.sh
 source ~/.bashrc
 ```
 
-## Clone the UZH-Cardano Network Repository
 
+
+## You can also use an old version of guild-deploy:
 ```bash
-git clone https://github.com/mostafachegeni/UZH-Cardano-Network
-cd UZH-Cardano-Network
-chmod +x scripts/*.sh
-source env.sh
+mkdir "$HOME/tmp";cd "$HOME/tmp"
+cp ~/UZH-Cardano-Network/guild-deploy.sh ~/tmp
+chmod 755 guild-deploy.sh
+./guild-deploy.sh -s d
+source ~/.bashrc
 ```
+
+Also, copy all scripts from "~/UZH-Cardano-Network/cnode_scripts/" to "/opt/cardano/cnode/scripts/"
+and copy binaries zipped in "~/UZH-Cardano-Network/bin" to "~/.local/bin/".
+
+Give them all "execution" permission.
+
+
 
 ## Set Up Environment Variables
 
